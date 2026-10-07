@@ -1,0 +1,56 @@
+---
+title: "Data Quality Control"
+author: "Irfan Khan"
+output: html_document
+---
+
+R features reserved words representing different cases:
+
+NA        — "Not available"     Missing value
+NaN       — "Not a number"      Invalid computation
+(-)lnf    — Infinite value      Mostly invalid computation
+NULL      — Empty object
+
+Special functions to find such values in a dataset:
+is.na() / is.nan() / is.finite() / is.null()
+duplicated values: duolicated()
+
+Outliers are data points that are significantly different
+than the entire population.
+
+### missing values
+```{r}
+is.na(c(1,2,4,NA))
+```
+### if the values are number
+```{r}
+is.finite(c(5,7,9,NaN,NA))
+```
+###Duplicate value
+```{r}
+duplicated(c(1.1,2,2,4,8.88,8.88))
+```
+###Example
+```{r}
+setwd(".")
+data1 <- read.csv("E:/DATA_SET_1.csv", row.names = 1)
+```
+and create an index pointing out individuals of age 105 years
+```{r}
+idx <- which(data1$Age == 105)
+data1[idx,]
+```
+we can iterate over colunns of our dataset and test if there are any NaN contained
+```{r}
+for(i in 1:ncol(data1))
+{
+  if(any(is.nan(data1 [,i])))
+  {
+    cat('There are ', length(is.nan(data1[,i])), 'NaNs in column ', colnames(data1)[i],'\n')
+  }else
+  {
+  cat('There are no NaNs in column ', colnames(data1)[i],'\n')
+  }
+}
+```    
+
